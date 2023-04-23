@@ -25,7 +25,7 @@ public interface JwtTokenProvider {
    *
    * @param token token value to validate.
    */
-  void validateToken(@NotBlank String token);
+  boolean validateToken(@NotBlank String token);
 
   /**
    * Parse UserRole from token.
@@ -33,5 +33,5 @@ public interface JwtTokenProvider {
    * @param token token to parse.
    * @return UserRole enum value.
    */
-  UserRole parseUserRole(@NotBlank String token);
+  String parseUsername(@NotBlank String token);
 }

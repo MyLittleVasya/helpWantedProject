@@ -12,12 +12,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component
+
 @RequiredArgsConstructor
+@Component
 public class JwtTokenProviderImpl implements JwtTokenProvider{
 
   @Value("${jwtTokenSecretKey}")
-  private final String secretKey;
+  private String secretKey;
 
   @Override
   public String createAuthToken(User user) {
@@ -28,24 +29,26 @@ public class JwtTokenProviderImpl implements JwtTokenProvider{
             .atStartOfDay(ZoneId.systemDefault())
             .toInstant()
         );
-    final var userRole = user.getUserRoles().stream().findFirst();
+    final var userRole = user.getUserRoles();
     final var token = Jwts.builder()
         .setExpiration(expirationDate)
         .claim("role", userRole.toString().toUpperCase())
+        .claim("username", user.getUsername())
         .signWith(SignatureAlgorithm.HS512, secretKey)
         .compact();
+
     return token;
   }
 
   @Override
-  public void validateToken(String token) throws JwtException {
-    Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);;
+  public boolean validateToken(String token) throws JwtException {
+    return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token) != null;
   }
 
   @Override
-  public UserRole parseUserRole(String token) {
+  public String parseUsername(String token) {
     final var claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-    final var userRole = UserRole.valueOf(claims.get("role").toString());
-    return userRole;
+    final var userName = claims.get("username").toString();
+    return userName;
   }
 }
