@@ -32,20 +32,21 @@ public class JwtTokenProviderImpl implements JwtTokenProvider{
     final var token = Jwts.builder()
         .setExpiration(expirationDate)
         .claim("role", userRole.toString().toUpperCase())
+        .claim("username", user.getUsername())
         .signWith(SignatureAlgorithm.HS512, secretKey)
         .compact();
     return token;
   }
 
   @Override
-  public void validateToken(String token) throws JwtException {
-    Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);;
+  public boolean validateToken(String token) throws JwtException {
+    return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token) != null;
   }
 
   @Override
-  public UserRole parseUserRole(String token) {
+  public String parseUsername(String token) {
     final var claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-    final var userRole = UserRole.valueOf(claims.get("role").toString());
-    return userRole;
+    final var userName = claims.get("username").toString();
+    return userName;
   }
 }
