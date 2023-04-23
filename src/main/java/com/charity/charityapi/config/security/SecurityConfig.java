@@ -1,5 +1,9 @@
 package com.charity.charityapi.config.security;
 
+import com.charity.charityapi.config.jwt.AuthenticationProvider;
+import com.charity.charityapi.config.jwt.JwtFilter;
+import com.charity.charityapi.config.jwt.JwtTokenProvider;
+import com.charity.charityapi.persistence.repository.UserRepository;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,15 +15,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Security configuration class for JWT based Spring Security application.
  */
 @Configuration
-@EnableMethodSecurity
+@EnableMethodSecurity()
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+  private final JwtFilter jwtFilter;
   @Bean
   public BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -43,8 +49,11 @@ public class SecurityConfig {
         // disable CSRF as we do not serve browser clients
         .csrf().disable()
         .authorizeHttpRequests()
+        .requestMatchers("/login").permitAll()
         .anyRequest().authenticated()
         .and()
+        .httpBasic().disable()
+        .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class)
         // make sure we use stateless session, session will not be used to store user's state
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     return http.build();

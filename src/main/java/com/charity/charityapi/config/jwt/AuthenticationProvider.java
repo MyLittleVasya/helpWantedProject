@@ -5,4 +5,6 @@ import org.springframework.security.core.Authentication;
 
 public interface AuthenticationProvider {
   Authentication getAuthentication(JwtUser user);
+
+  void setAuthentication(Authentication authentication);
 }

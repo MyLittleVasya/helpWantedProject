@@ -12,12 +12,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component
+
 @RequiredArgsConstructor
+@Component
 public class JwtTokenProviderImpl implements JwtTokenProvider{
 
   @Value("${jwtTokenSecretKey}")
-  private final String secretKey;
+  private String secretKey;
 
   @Override
   public String createAuthToken(User user) {
@@ -28,13 +29,14 @@ public class JwtTokenProviderImpl implements JwtTokenProvider{
             .atStartOfDay(ZoneId.systemDefault())
             .toInstant()
         );
-    final var userRole = user.getUserRoles().stream().findFirst();
+    final var userRole = user.getUserRoles();
     final var token = Jwts.builder()
         .setExpiration(expirationDate)
         .claim("role", userRole.toString().toUpperCase())
         .claim("username", user.getUsername())
         .signWith(SignatureAlgorithm.HS512, secretKey)
         .compact();
+
     return token;
   }
 
