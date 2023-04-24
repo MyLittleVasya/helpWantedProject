@@ -1,5 +1,6 @@
-package com.charity.charityapi.config.jwt;
+package com.charity.charityapi.config.jwt.impl;
 
+import com.charity.charityapi.config.jwt.JwtTokenProvider;
 import com.charity.charityapi.persistence.User;
 import com.charity.charityapi.persistence.UserRole;
 import io.jsonwebtoken.JwtException;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class JwtTokenProviderImpl implements JwtTokenProvider{
+public class JwtTokenProviderImpl implements JwtTokenProvider {
 
   @Value("${jwtTokenSecretKey}")
   private String secretKey;
@@ -29,7 +30,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider{
             .atStartOfDay(ZoneId.systemDefault())
             .toInstant()
         );
-    final var userRole = user.getUserRoles();
+    final var userRole = user.getUserRole();
     final var token = Jwts.builder()
         .setExpiration(expirationDate)
         .claim("role", userRole.toString().toUpperCase())

@@ -1,9 +1,6 @@
 package com.charity.charityapi.config.security;
 
-import com.charity.charityapi.config.jwt.AuthenticationProvider;
-import com.charity.charityapi.config.jwt.JwtFilter;
-import com.charity.charityapi.config.jwt.JwtTokenProvider;
-import com.charity.charityapi.persistence.repository.UserRepository;
+import com.charity.charityapi.config.jwt.impl.JwtFilter;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -49,7 +46,7 @@ public class SecurityConfig {
         // disable CSRF as we do not serve browser clients
         .csrf().disable()
         .authorizeHttpRequests()
-        .requestMatchers("/login").permitAll()
+        .requestMatchers("/login", "/users/create").permitAll()
         .anyRequest().authenticated()
         .and()
         .httpBasic().disable()

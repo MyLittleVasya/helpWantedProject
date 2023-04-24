@@ -30,9 +30,9 @@ import lombok.experimental.FieldDefaults;
 public class User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
-  Long id;
+  long id;
 
   @Column(name = "username", unique = true)
   String username;
@@ -40,6 +40,10 @@ public class User {
   @Column(name = "password")
   String password;
 
-  @Column(name = "userRole")
-  private UserRole userRoles;
+  @Column(name = "user_role")
+  @Enumerated(value = EnumType.STRING)
+  UserRole userRole;
+
+  @Column(name = "email", unique = true)
+  String email;
 }
