@@ -1,7 +1,7 @@
 package com.charity.charityapi.config.security;
 
 import com.charity.charityapi.config.jwt.AuthenticationProvider;
-import com.charity.charityapi.config.jwt.JwtFilter;
+import com.charity.charityapi.config.jwt.impl.JwtFilter;
 import com.charity.charityapi.config.jwt.JwtTokenProvider;
 import com.charity.charityapi.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

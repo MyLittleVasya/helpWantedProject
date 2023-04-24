@@ -1,10 +1,6 @@
 package com.charity.charityapi.web.api;
 
-import com.charity.charityapi.config.jwt.JwtTokenProvider;
-import com.charity.charityapi.persistence.User;
-import com.charity.charityapi.persistence.UserRole;
-import com.charity.charityapi.persistence.repository.UserRepository;
-import java.util.HashSet;
+import com.charity.charityapi.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,14 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class JwtAuthenticationController {
-  private final JwtTokenProvider jwtTokenProvider;
-  private final UserRepository userRepository;
+
+  private final AuthenticationService authenticationService;
   @PostMapping("/login")
   public ResponseEntity login(@RequestParam(name = "username") String username,
                               @RequestParam(name = "password") String password){
-    final var user = new User(1L,"1", "1",UserRole.USER);
-    userRepository.save(user);
-    final var token = jwtTokenProvider.createAuthToken(user);
+    final var token = authenticationService.getAuthenticationToken(username, password);
 
     return ResponseEntity.ok(token);
   }

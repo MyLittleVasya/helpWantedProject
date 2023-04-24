@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Value
 public class JwtUser implements UserDetails {
-  String id;
+  long id;
 
   String userName;
 
