@@ -13,6 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Security configuration class for JWT based Spring Security application.
@@ -35,15 +37,29 @@ public class SecurityConfig {
     return authConfig.getAuthenticationManager();
   }
 
+  @Bean
+  public WebMvcConfigurer corsConfigurer() {
+    return new WebMvcConfigurer() {
+      @Override
+      public void addCorsMappings(CorsRegistry registry) {
+        registry
+            .addMapping("/user")
+            .allowedOrigins("http://localhost:3000");
+      }
+    };
+  }
+
   /**
    * Configuration of security.
    */
   @Bean
   public SecurityFilterChain filterChain(@Nonnull final HttpSecurity http) throws Exception {
     http
+        //This should be merged because of /h2-console which uses frames
         .headers().frameOptions().sameOrigin()
         .and()
         // disable CSRF as we do not serve browser clients
+        .cors().and()
         .csrf().disable()
         .authorizeHttpRequests()
         .requestMatchers("/login", "/users/create").permitAll()
