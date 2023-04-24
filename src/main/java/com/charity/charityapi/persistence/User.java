@@ -32,7 +32,7 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  String id;
+  Long id;
 
   @Column(name = "username", unique = true)
   String username;
@@ -40,8 +40,6 @@ public class User {
   @Column(name = "password")
   String password;
 
-  @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
-  @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-  @Enumerated(EnumType.STRING)
-  private Set<UserRole> userRoles;
+  @Column(name = "userRole")
+  private UserRole userRoles;
 }
