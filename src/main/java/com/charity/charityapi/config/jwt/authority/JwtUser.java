@@ -8,7 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- *  JwtUser
+ *  Entity that contains authentication info.
+ *
+ *  <p>Used to put userDetails to context.</p>
  */
 @Value
 public class JwtUser implements UserDetails {

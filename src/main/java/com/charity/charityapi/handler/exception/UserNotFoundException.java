@@ -2,6 +2,9 @@ package com.charity.charityapi.handler.exception;
 
 import java.io.Serial;
 
+/**
+ * Exception that is thrown if user is not found.
+ */
 public class UserNotFoundException extends RuntimeException {
 
   @Serial

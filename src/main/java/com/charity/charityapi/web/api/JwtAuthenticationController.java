@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * REST Controller that is responsible for user authentication.
+ */
 @RestController
 @RequiredArgsConstructor
 public class JwtAuthenticationController {
@@ -22,9 +25,21 @@ public class JwtAuthenticationController {
     return ResponseEntity.ok(token);
   }
 
+  /**
+   * todo remove this.
+   */
   @GetMapping("/admin")
-  @PreAuthorize("hasAuthority('USER')")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity test(){
+    return ResponseEntity.ok().build();
+  }
+
+  /**
+   * todo remove this.
+   */
+  @GetMapping("/user")
+  @PreAuthorize("hasAuthority('USER')")
+  public ResponseEntity test2(){
     return ResponseEntity.ok().build();
   }
 

@@ -3,14 +3,12 @@ package com.charity.charityapi.dto.request;
 import lombok.Value;
 
 /**
- * User registration request body.
+ * Login request body.
  */
 @Value
-public class UserRegistrationRequest {
+public class LoginRequest {
 
   String username;
 
   String password;
-
-  String email;
 }
