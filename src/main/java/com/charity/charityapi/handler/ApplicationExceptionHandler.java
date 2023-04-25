@@ -1,11 +1,11 @@
 package com.charity.charityapi.handler;
 
 import com.charity.charityapi.handler.exception.AccessDeniedException;
+import com.charity.charityapi.handler.exception.UserAlreadyExistsException;
 import com.charity.charityapi.handler.exception.UserNotFoundException;
 import com.charity.charityapi.handler.exception.WrongCredentialsException;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.ConstraintViolationException;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -53,8 +53,27 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
   }
 
+  /**
+   * Handle {@link AccessDeniedException}
+   */
   @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<ErrorMessage> handleConstraintViolationException(
+      @Nonnull final HttpServletRequest request,
+      @Nonnull final Exception exception) {
+    final var message = ErrorMessage.builder()
+        .status(HttpStatus.FORBIDDEN.value())
+        .date(new Date())
+        .description(exception.getCause().getMessage())
+        .url(request.getRequestURL().toString())
+        .build();
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
+  }
+
+  /**
+   * Handle {@link (UserAlreadyExistsException}
+   */
+  @ExceptionHandler(UserAlreadyExistsException.class)
+  public ResponseEntity<ErrorMessage> handleUserAlreadyExistsException(
       @Nonnull final HttpServletRequest request,
       @Nonnull final Exception exception) {
     final var message = ErrorMessage.builder()

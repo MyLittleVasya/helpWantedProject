@@ -3,7 +3,6 @@ package com.charity.charityapi.service;
 import com.charity.charityapi.dto.UserDto;
 import com.charity.charityapi.dto.UserPrivateDto;
 import com.charity.charityapi.dto.request.UserRegistrationRequest;
-import com.charity.charityapi.persistence.User;
 import jakarta.annotation.Nonnull;
 
 /**

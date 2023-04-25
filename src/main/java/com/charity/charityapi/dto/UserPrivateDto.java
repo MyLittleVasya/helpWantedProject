@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
- * DTO that represents {@link com.charity.charityapi.persistence.User}.
+ * DTO that contains private and public data of {@link com.charity.charityapi.persistence.User}.
  */
 @Value
 @Builder

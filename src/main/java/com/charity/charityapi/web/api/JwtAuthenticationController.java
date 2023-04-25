@@ -4,12 +4,14 @@ import com.charity.charityapi.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * REST Controller that is responsible for user authentication.
+ */
 @RestController
 @RequiredArgsConstructor
 public class JwtAuthenticationController {
@@ -23,12 +25,18 @@ public class JwtAuthenticationController {
     return ResponseEntity.ok(token);
   }
 
+  /**
+   * todo remove this.
+   */
   @GetMapping("/admin")
   @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity test(){
     return ResponseEntity.ok().build();
   }
 
+  /**
+   * todo remove this.
+   */
   @GetMapping("/user")
   @PreAuthorize("hasAuthority('USER')")
   public ResponseEntity test2(){

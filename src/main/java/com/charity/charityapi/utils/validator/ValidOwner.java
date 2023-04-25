@@ -3,7 +3,6 @@ package com.charity.charityapi.utils.validator;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.charity.charityapi.persistence.User;
-import com.charity.charityapi.utils.validator.UserAccessValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import java.lang.annotation.Documented;

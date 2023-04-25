@@ -3,6 +3,9 @@ package com.charity.charityapi.persistence.repository;
 import com.charity.charityapi.persistence.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * DAO for {@link User}.
+ */
 public interface UserRepository extends JpaRepository<User, Long> {
   User findByUsername(String username);
 
