@@ -30,7 +30,7 @@ import lombok.experimental.FieldDefaults;
 public class User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   long id;
 
@@ -46,4 +46,7 @@ public class User {
 
   @Column(name = "email", unique = true)
   String email;
+
+  @Column(name = "reputation")
+  long reputation;
 }

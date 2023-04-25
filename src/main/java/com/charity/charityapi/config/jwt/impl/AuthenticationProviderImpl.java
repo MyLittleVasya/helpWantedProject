@@ -17,6 +17,6 @@ public class AuthenticationProviderImpl  implements AuthenticationProvider {
   @Override
   public void setAuthentication(Authentication authentication) {
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    System.out.println("executed");
+    System.out.println("User was authenticated.");
   }
 }
