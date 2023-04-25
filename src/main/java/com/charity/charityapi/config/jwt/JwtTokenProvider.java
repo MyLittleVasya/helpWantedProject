@@ -1,14 +1,13 @@
 package com.charity.charityapi.config.jwt;
 
 import com.charity.charityapi.persistence.User;
-import com.charity.charityapi.persistence.UserRole;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 /**
  * Jwt token provider class.
  *
- * <p>Generates jwt auth token for user or validates token.</p>
+ * <p>Generates jwt auth token for user, validates token, parses token.</p>
  */
 public interface JwtTokenProvider {
 
