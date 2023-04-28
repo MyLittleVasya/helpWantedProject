@@ -61,7 +61,7 @@ public class JwtFilter extends OncePerRequestFilter {
    */
   private boolean isPublicEndpoint(@Nonnull final HttpServletRequest request) {
     final var uri = request.getRequestURI();
-    return uri.equals("/login") || uri.equals("/users/create");
+    return uri.equals("/login") || uri.equals("/users/create") || uri.contains("h2");
   }
 
   /**
