@@ -3,6 +3,7 @@ package com.charity.charityapi.service.impl;
 import com.charity.charityapi.config.jwt.JwtTokenProvider;
 import com.charity.charityapi.handler.exception.UserNotFoundException;
 import com.charity.charityapi.handler.exception.WrongCredentialsException;
+import com.charity.charityapi.persistence.User;
 import com.charity.charityapi.persistence.repository.UserRepository;
 import com.charity.charityapi.service.AuthenticationService;
 import jakarta.annotation.Nonnull;
