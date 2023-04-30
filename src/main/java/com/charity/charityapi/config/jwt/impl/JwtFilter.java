@@ -47,10 +47,13 @@ public class JwtFilter extends OncePerRequestFilter {
       filterChain.doFilter(request,response);
       return;
     }
-    final var jwtToken = parseAuthToken(request, response);
-    setAuthentication(jwtToken, response);
+    else {
+      final var jwtToken = parseAuthToken(request, response);
+      setAuthentication(jwtToken, response);
 
-    filterChain.doFilter(request,response);
+      filterChain.doFilter(request,response);
+    }
+
   }
 
   /**

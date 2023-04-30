@@ -4,6 +4,9 @@ import com.charity.charityapi.dto.UserDto;
 import com.charity.charityapi.dto.UserPrivateDto;
 import com.charity.charityapi.persistence.User;
 import jakarta.annotation.Nonnull;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,5 +47,19 @@ public class UserDtoMapper {
         .reputation(user.getReputation())
         .build();
     return userDto;
+  }
+
+  /**
+   * Map from {@link User} to {@link UserDto}.
+   *
+   * @param users user collection to map.
+   * @return set of {@link UserDto}.
+   */
+  public Set<UserDto> userCollectionToUserDtoSet(@Nonnull final Collection<User> users) {
+    final var resultSet = new HashSet<UserDto>();
+    for (final var user: users) {
+      resultSet.add(userToDto(user));
+    }
+    return resultSet;
   }
 }

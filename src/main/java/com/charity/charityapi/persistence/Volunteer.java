@@ -38,6 +38,6 @@ public class Volunteer {
   @ManyToOne(fetch = FetchType.LAZY)
   Task task;
 
-  @Column(name = "finished")
-  boolean finished;
+  @Column(name = "executor")
+  boolean executor;
 }

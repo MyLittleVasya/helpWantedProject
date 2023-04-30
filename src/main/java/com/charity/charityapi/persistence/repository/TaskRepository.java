@@ -2,6 +2,8 @@ package com.charity.charityapi.persistence.repository;
 
 import com.charity.charityapi.persistence.Task;
 import com.charity.charityapi.persistence.User;
+import java.util.Set;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,4 +11,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface TaskRepository extends JpaRepository<Task, Long> {
   Task findById(long id);
+
+  Set<Task> findTaskContainingByOrderByIdDesc(Set<String> tags, PageRequest pageRequest);
+
+  Set<Task> findTaskByOrderByIdDesc(PageRequest pageRequest);
+
+  Task findTopByOrderByIdDesc();
 }

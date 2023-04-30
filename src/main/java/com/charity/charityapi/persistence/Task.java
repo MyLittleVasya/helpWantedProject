@@ -48,9 +48,9 @@ public class Task {
 
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "task_tags", joinColumns = @JoinColumn(name = "task_id"))
-  @Column(name = "tags", nullable = false)
+  @Column(name = "tag", nullable = false)
   Set<String> tags;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  User authorId;
+  User author;
 }

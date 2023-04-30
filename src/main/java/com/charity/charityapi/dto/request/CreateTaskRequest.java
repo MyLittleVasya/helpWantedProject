@@ -1,5 +1,6 @@
 package com.charity.charityapi.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,22 +11,22 @@ import lombok.Value;
  * Create task request body.
  */
 @Value
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateTaskRequest {
 
-  @NotNull
+  //@NotNull
   //@Size(min = 8, max = 20)
   String name;
 
-  @NotNull
+  //@NotNull
   //@Size(min = 64, max = 128)
   String shortDescription;
 
-  @NotNull
+  //@NotNull
   //@Size(min = 128, max = 255)
   String description;
 
-  @NotEmpty
+  //@NotEmpty
   //@Size(min = 1, max = 10)
   Set<String> tags;
-
 }
