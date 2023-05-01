@@ -38,17 +38,17 @@ public class SecurityConfig {
     return authConfig.getAuthenticationManager();
   }
 
-  @Bean
-  public WebMvcConfigurer corsConfigurer() {
-    return new WebMvcConfigurer() {
-      @Override
-      public void addCorsMappings(CorsRegistry registry) {
-        registry
-            .addMapping("/user")
-            .allowedOrigins("http://localhost:3000");
-      }
-    };
-  }
+//  @Bean
+//  public WebMvcConfigurer corsConfigurer() {
+//    return new WebMvcConfigurer() {
+//      @Override
+//      public void addCorsMappings(CorsRegistry registry) {
+//        registry
+//            .addMapping("/**")
+//            .allowedOrigins("http://localhost:3000");
+//      }
+//    };
+//  }
 
   /**
    * Configuration of security.
@@ -60,7 +60,6 @@ public class SecurityConfig {
         .headers().frameOptions().sameOrigin()
         .and()
         // disable CSRF as we do not serve browser clients
-        .cors().and()
         .csrf().disable()
         .authorizeHttpRequests()
         .requestMatchers("/login", "/users/create").permitAll()
