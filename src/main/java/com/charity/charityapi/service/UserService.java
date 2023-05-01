@@ -49,6 +49,6 @@ public interface UserService {
    * @return DTO of deleted User.
    */
   @Nonnull
-  UserDto deleteUser(@Nonnull long id);
+  UserDto deleteUser(long id);
 
 }

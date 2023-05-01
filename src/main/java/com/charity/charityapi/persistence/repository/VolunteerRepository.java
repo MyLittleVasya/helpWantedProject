@@ -11,5 +11,9 @@ public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
 
   Volunteer findByUserIdAndTaskId(long userId, long taskId);
 
+  Set<Volunteer> findByTaskId(long taskId);
+
+  Set<Volunteer> findByUserId(long userId);
+
   void deleteById(long id);
 }

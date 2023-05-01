@@ -9,6 +9,7 @@ import com.charity.charityapi.persistence.repository.UserRepository;
 import com.charity.charityapi.service.TaskService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -60,8 +61,9 @@ public class TaskController {
   //
   @DeleteMapping("{id}/delete")
   @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
-  public ResponseEntity deleteTask(@PathVariable(name = "id") final long id) {
-    return null;
+  public ResponseEntity<TaskDto> deleteTask(@PathVariable(name = "id") final long id) {
+    final var result = taskService.deleteTask(id);
+    return ResponseEntity.ok(result);
   }
 
   //
@@ -80,13 +82,29 @@ public class TaskController {
   }
 
   @PostMapping("/{id}/chooseExecutor/{executorId}")
-  public ResponseEntity addExecutor(@PathVariable(name = "id") final long taskId,
-                                    @PathVariable(name = "executorId") final long executorId) {
-    return null;
+  public ResponseEntity<TaskDto> addExecutor(@PathVariable(name = "id") final long taskId,
+                                    @PathVariable(name = "executorId") final long executorId,
+                                    @AuthenticationPrincipal final JwtUser user) {
+    final var result = taskService.addExecutor(taskId, executorId, user);
+    return ResponseEntity.ok(result);
   }
 
   @PostMapping("/{id}/finish")
-  public ResponseEntity finishTask(@PathVariable(name = "id") final long id) {
-    return null;
+  public ResponseEntity<TaskDto> finishTask(@PathVariable(name = "id") final long id,
+                                   @AuthenticationPrincipal final JwtUser user) {
+    final var result = taskService.finishTask(id, user);
+    return ResponseEntity.ok(result);
+  }
+
+  @GetMapping("/createdBy/{userId}")
+  public ResponseEntity<Set<TaskDto>> getTasksCreatedByUser(@PathVariable(name = "userId") final long id) {
+    final var result = taskService.getTasksCreatedByUser(id);
+    return ResponseEntity.ok(result);
+  }
+
+  @GetMapping("/volunteeredBy/{userId}")
+  public ResponseEntity<Set<TaskDto>> getUserVolunteerRequests(@PathVariable(name = "userId") final long id) {
+    final var result = taskService.getUserVolunteerRequests(id);
+    return ResponseEntity.ok(result);
   }
 }

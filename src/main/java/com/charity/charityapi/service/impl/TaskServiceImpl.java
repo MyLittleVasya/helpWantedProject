@@ -7,6 +7,7 @@ import com.charity.charityapi.dto.mapper.UserDtoMapper;
 import com.charity.charityapi.dto.request.CreateTaskRequest;
 import com.charity.charityapi.dto.request.GetTasksRequest;
 import com.charity.charityapi.dto.response.GetTasksResponse;
+import com.charity.charityapi.handler.exception.AccessDeniedException;
 import com.charity.charityapi.handler.exception.NotFoundException;
 import com.charity.charityapi.persistence.Task;
 import com.charity.charityapi.persistence.User;
@@ -17,6 +18,7 @@ import com.charity.charityapi.persistence.repository.VolunteerRepository;
 import com.charity.charityapi.service.TaskService;
 import jakarta.annotation.Nonnull;
 import jakarta.transaction.Transactional;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -151,12 +153,67 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public TaskDto addExecutor(long taskId, long userId) {
-    return null;
+  public TaskDto addExecutor(final long taskId, final long userId, @Nonnull final JwtUser user) {
+    final var task = taskRepository.findById(taskId);
+    if (task == null) {
+      throw new NotFoundException(String.format("Task with id %s not found", taskId));
+    }
+    if (task.getAuthor().getId() != user.getId()) {
+      throw new AccessDeniedException("You cannot perform this action");
+    }
+    if (volunteerRepository.existsByUserIdAndTaskId(user.getId(), taskId)) {
+      final var volunteer = volunteerRepository.findByUserIdAndTaskId(user.getId(), taskId);
+      volunteer.setExecutor(true);
+      volunteerRepository.save(volunteer);
+    }
+    final var taskDto = taskDtoMapper.taskToTaskDto(task);
+    return taskDto;
   }
 
   @Override
-  public TaskDto finishTask(long taskId) {
-    return null;
+  public TaskDto finishTask(final long taskId, @Nonnull final JwtUser user) {
+    final var task = taskRepository.findById(taskId);
+    if (task == null) {
+      throw new NotFoundException(String.format("Task with id %s not found", taskId));
+    }
+    if (task.getAuthor().getId() != user.getId()) {
+      throw new AccessDeniedException("You cannot perform this action");
+    }
+    task.setFinished(true);
+    final var executors = volunteerRepository.findByTaskId(taskId);
+    for (final var executor: executors) {
+      final var userVolunteer = executor.getUser();
+      userVolunteer.setReputation(userVolunteer.getReputation()+1);
+      userRepository.save(userVolunteer);
+    }
+    taskRepository.save(task);
+    final var taskDto = taskDtoMapper.taskToTaskDto(task);
+    return taskDto;
+  }
+
+  @Override
+  public Set<TaskDto> getTasksCreatedByUser(long userId) {
+    final var user = userRepository.findById(userId);
+    if (user != null) {
+      final var tasks = taskRepository.findByAuthorId(userId);
+      final var taskDtos = taskDtoMapper.tasksToTasksDto(tasks);
+      return taskDtos;
+    }
+    throw new NotFoundException("Cant access data of non existing user.");
+  }
+
+  @Override
+  public Set<TaskDto> getUserVolunteerRequests(long userId) {
+    final var user = userRepository.findById(userId);
+    if (user != null) {
+      final var volunteers = volunteerRepository.findByUserId(userId);
+      final var tasks = new HashSet<Task>();
+      for (final var volunteer:volunteers) {
+        tasks.add(volunteer.getTask());
+      }
+      final var taskDtos = taskDtoMapper.tasksToTasksDto(tasks);
+      return taskDtos;
+    }
+    throw new NotFoundException("Cant access data of non existing user.");
   }
 }

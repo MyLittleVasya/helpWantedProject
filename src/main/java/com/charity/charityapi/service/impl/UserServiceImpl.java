@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
    */
   @Nonnull
   @Override
-  public UserDto deleteUser(@Nonnull long userId) {
+  public UserDto deleteUser( long userId) {
     final var user = userRepository.findById(userId);
     if (user != null) {
       final var userDto = userMapper.userToDto(user);

@@ -18,5 +18,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
   Task findTopByOrderByIdDesc();
 
+  Set<Task> findByAuthorId(long authorId);
+
 
 }

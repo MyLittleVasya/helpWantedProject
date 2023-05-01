@@ -7,6 +7,7 @@ import com.charity.charityapi.dto.request.GetTasksRequest;
 import com.charity.charityapi.dto.response.GetTasksResponse;
 import com.charity.charityapi.persistence.User;
 import jakarta.annotation.Nonnull;
+import java.util.Set;
 
 /**
  * Service for {@link com.charity.charityapi.persistence.Task}.
@@ -82,15 +83,33 @@ public interface TaskService {
    *
    * @param taskId task add executor for
    * @param userId identifier of executor
+   * @param user user who performed action.
    * @return task DTO.
    */
-  TaskDto  addExecutor(long taskId, long userId);
+  TaskDto  addExecutor(long taskId, long userId, @Nonnull JwtUser user);
 
   /**
    * Mark task as finished.
    *
    * @param taskId identifier of task to finish
+   * @param user user who performed action.
    * @return task DTO.
    */
-  TaskDto  finishTask(long taskId);
+  TaskDto  finishTask(long taskId, @Nonnull JwtUser user);
+
+  /**
+   * Get all tasks created by user.
+   *
+   * @param userId identifier of user.
+   * @return set of task DTO.
+   */
+  Set<TaskDto> getTasksCreatedByUser(long userId);
+
+  /**
+   * Get all tasks where user is a volunteer.
+   *
+   * @param userId identifier of user.
+   * @return set of task DTO.
+   */
+  Set<TaskDto> getUserVolunteerRequests(long userId);
 }

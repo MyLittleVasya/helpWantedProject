@@ -6,18 +6,18 @@ insert into USERS( username, password, user_role, email, reputation) values (
                                                                                );
 
 insert into USER_SKILLS(user_id, skill) values (
-                                                   1, 'JAVA'
+1, 'JAVA'
                                                );
 
 insert into USER_SKILLS(user_id, skill) values (
-                                                   1, 'SPRING'
+1, 'SPRING'
                                                );
 insert into USER_SKILLS(user_id, skill) values (
-                                                   2, 'JAVA2'
+2, 'JAVA2'
                                                );
 
 insert into USER_SKILLS(user_id, skill) values (
-                                                   2, 'SPRING2'
+2, 'SPRING2'
                                                );
 
 insert into tasks(name, description, short_description, finished, author_id) values (
@@ -28,16 +28,16 @@ insert into tasks(name, description, short_description, finished, author_id) val
 'TestTask2', 'Task for testing2', 'Short description of test task2', false, 2
                                                                                         );
 insert into task_tags (task_id, tag) values (
-                                                1, 'Java'
+1, 'Java'
                                             );
 insert into task_tags (task_id, tag) values (
-                                                1, 'Spring'
+1, 'Spring'
                                             );
 insert into task_tags (task_id, tag) values (
-                                                2, 'Java2'
+2, 'Java2'
                                             );
 insert into task_tags (task_id, tag) values (
-                                                2, 'Spring2'
+2, 'Spring2'
                                             );
 insert into volunteers (executor, task_id, user_id) values (
 false, 1, 1
