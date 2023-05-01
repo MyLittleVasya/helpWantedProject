@@ -31,7 +31,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     final var message = ErrorMessage.builder()
         .status(HttpStatus.NOT_FOUND.value())
         .date(new Date())
-        .description(exception.getCause().toString())
+        .description(exception.getMessage())
         .url(request.getRequestURL().toString())
         .build();
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
@@ -79,7 +79,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     final var message = ErrorMessage.builder()
         .status(HttpStatus.FORBIDDEN.value())
         .date(new Date())
-        .description(exception.getCause().getMessage())
+        .description(exception.getMessage())
         .url(request.getRequestURL().toString())
         .build();
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);

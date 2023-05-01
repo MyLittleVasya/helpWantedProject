@@ -51,4 +51,11 @@ public interface UserService {
   @Nonnull
   UserDto deleteUser(@Nonnull long id);
 
+  /**
+   * Get existing user
+   * @param name of user to fetch data
+   * @return DTO of found User
+   */
+  @Nonnull
+  UserPrivateDto getUserByUserName(@Nonnull String name);
 }

@@ -54,7 +54,9 @@ public class JwtFilter extends OncePerRequestFilter {
       filterChain.doFilter(request,response);
     }
 
+    filterChain.doFilter(request,response);
   }
+
 
   /**
    * Check whether public endpoint is requested.

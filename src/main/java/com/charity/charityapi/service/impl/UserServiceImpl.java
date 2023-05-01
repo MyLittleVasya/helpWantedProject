@@ -81,6 +81,7 @@ public class UserServiceImpl implements UserService {
               user.getEmail())
       );
     }
+    userRepository.save(user);
     final var userDto = userMapper.userToDto(user);
     return userDto;
   }
@@ -100,5 +101,16 @@ public class UserServiceImpl implements UserService {
       return userDto;
     }
     throw new UserNotFoundException("Cant access data of non existing user.");
+  }
+
+  @Nonnull
+  @Override
+  public UserPrivateDto getUserByUserName(@Nonnull String name) {
+    final var user = userRepository.findByUsername(name);
+    if (user == null){
+      throw new UserNotFoundException(
+          String.format("Not found user with %s name not found",name));
+    }
+    return userMapper.userToPrivateDto(user);
   }
 }
