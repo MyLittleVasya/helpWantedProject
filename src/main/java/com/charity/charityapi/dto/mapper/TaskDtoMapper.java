@@ -5,6 +5,8 @@ import com.charity.charityapi.dto.VolunteerDto;
 import com.charity.charityapi.persistence.Task;
 import com.charity.charityapi.persistence.repository.VolunteerRepository;
 import jakarta.annotation.Nonnull;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,12 @@ public class TaskDtoMapper {
 
   private final VolunteerRepository volunteerRepository;
 
+  /**
+   * Map from {@link Task} to {@link TaskDto}.
+   *
+   * @param task entity to map.
+   * @return DTO of task.
+   */
   public TaskDto taskToTaskDto(@Nonnull final Task task) {
     final var volunteers = volunteerRepository.findAllByTaskId(task.getId());
     Set<VolunteerDto> volunteersDto = null;
@@ -41,6 +49,20 @@ public class TaskDtoMapper {
         .volunteers(volunteersDto)
         .build();
     return taskDto;
+  }
+
+  /**
+   * Map from collection of {@link Task} to set of {@link TaskDto}.
+   *
+   * @param tasks collection of entities to map.
+   * @return DTO set of tasks.
+   */
+  public Set<TaskDto> tasksToTasksDto(@Nonnull final Collection<Task> tasks) {
+   final var resultSet = new HashSet<TaskDto>();
+   for (final var task:tasks) {
+     resultSet.add(taskToTaskDto(task));
+   }
+    return resultSet;
   }
 
 

@@ -2,6 +2,8 @@ package com.charity.charityapi.service;
 
 import com.charity.charityapi.dto.TaskDto;
 import com.charity.charityapi.dto.request.CreateTaskRequest;
+import com.charity.charityapi.dto.request.GetTasksRequest;
+import com.charity.charityapi.dto.response.GetTasksResponse;
 import com.charity.charityapi.persistence.User;
 import jakarta.annotation.Nonnull;
 import java.util.Set;
@@ -24,23 +26,20 @@ public interface TaskService {
   /**
    * Method to get page of tasks.
    *
-   * @param page current number of page to get.
-   * @param size size of page to get.
+   * @param request request with params.
    * @return set of tasks.
    */
   @Nonnull
-  Set<TaskDto> getTasks(long page, long size);
+  GetTasksResponse getTasks(@Nonnull GetTasksRequest request);
 
   /**
    * Method to get page of tasks that contains specific tags.
    *
-   * @param page current number of page to get.
-   * @param size size of page to get.
-   * @param tags tags which task should contain.
+   * @param request request with params.
    * @return set of tasks.
    */
   @Nonnull
-  Set<TaskDto> getTasksContainingTags(long page, long size, Set<String> tags);
+  GetTasksResponse getTasksContainingTags(@Nonnull GetTasksRequest request);
 
   /**
    * Method to get task.

@@ -4,6 +4,8 @@ import com.charity.charityapi.dto.TaskDto;
 import com.charity.charityapi.dto.mapper.TaskDtoMapper;
 import com.charity.charityapi.dto.mapper.UserDtoMapper;
 import com.charity.charityapi.dto.request.CreateTaskRequest;
+import com.charity.charityapi.dto.request.GetTasksRequest;
+import com.charity.charityapi.dto.response.GetTasksResponse;
 import com.charity.charityapi.persistence.Task;
 import com.charity.charityapi.persistence.User;
 import com.charity.charityapi.persistence.repository.TaskRepository;
@@ -13,6 +15,7 @@ import com.charity.charityapi.service.TaskService;
 import jakarta.annotation.Nonnull;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -43,14 +46,47 @@ public class TaskServiceImpl implements TaskService {
 
   @Nonnull
   @Override
-  public Set<TaskDto> getTasks(long page, long size) {
-    return null;
+  public GetTasksResponse getTasks(@Nonnull final GetTasksRequest request) {
+    final var tasks = taskRepository.findAllByOrderByIdDesc(
+        PageRequest.of(request.getPage(), request.getSize())
+    );
+    if (tasks.size() == 0) {
+      return GetTasksResponse.builder().lastPage(true).build();
+    }
+    final var taskDtos = taskDtoMapper.tasksToTasksDto(tasks);
+    if (tasks.size() < request.getSize()) {
+      return GetTasksResponse.builder()
+          .tasks(taskDtos)
+          .lastPage(true)
+          .build();
+    }
+    return GetTasksResponse.builder()
+        .tasks(taskDtos)
+        .lastPage(false)
+        .build();
   }
 
   @Nonnull
   @Override
-  public Set<TaskDto> getTasksContainingTags(long page, long size, Set<String> tags) {
-    return null;
+  public GetTasksResponse getTasksContainingTags(@Nonnull final GetTasksRequest request) {
+    final var tasks = taskRepository.findAllByTagsInIgnoreCase(
+        PageRequest.of(request.getPage(), request.getSize()),
+        request.getTags()
+    );
+    if (tasks.size() == 0) {
+      return GetTasksResponse.builder().lastPage(true).build();
+    }
+    final var taskDtos = taskDtoMapper.tasksToTasksDto(tasks);
+    if (tasks.size() < request.getSize()) {
+      return GetTasksResponse.builder()
+          .tasks(taskDtos)
+          .lastPage(true)
+          .build();
+    }
+    return GetTasksResponse.builder()
+        .tasks(taskDtos)
+        .lastPage(false)
+        .build();
   }
 
   @Nonnull

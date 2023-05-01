@@ -3,11 +3,12 @@ package com.charity.charityapi.web.api;
 import com.charity.charityapi.config.jwt.authority.JwtUser;
 import com.charity.charityapi.dto.TaskDto;
 import com.charity.charityapi.dto.request.CreateTaskRequest;
+import com.charity.charityapi.dto.request.GetTasksRequest;
+import com.charity.charityapi.dto.response.GetTasksResponse;
 import com.charity.charityapi.persistence.repository.UserRepository;
 import com.charity.charityapi.service.TaskService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -41,10 +41,14 @@ public class TaskController {
   }
   //
   @GetMapping()
-  public ResponseEntity getTasks(@RequestParam(name = "page") final long page,
-                                 @RequestParam(name = "size") final long size,
-                                 @RequestParam(name = "tags", required = false) final Set<String> tags) {
-    return null;
+  public ResponseEntity<GetTasksResponse> getTasks(@RequestBody final GetTasksRequest request) {
+    if (request.getTags() == null || request.getTags().isEmpty()) {
+      final var result = taskService.getTasks(request);
+      return ResponseEntity.ok(result);
+    } else {
+      final var result = taskService.getTasksContainingTags(request);
+      return ResponseEntity.ok(result);
+    }
   }
   //
   @GetMapping("/get/{id}")
