@@ -5,7 +5,7 @@ import com.charity.charityapi.dto.UserPrivateDto;
 import com.charity.charityapi.dto.mapper.UserDtoMapper;
 import com.charity.charityapi.dto.request.UserRegistrationRequest;
 import com.charity.charityapi.handler.exception.UserAlreadyExistsException;
-import com.charity.charityapi.handler.exception.UserNotFoundException;
+import com.charity.charityapi.handler.exception.NotFoundException;
 import com.charity.charityapi.persistence.User;
 import com.charity.charityapi.persistence.UserRole;
 import com.charity.charityapi.persistence.repository.UserRepository;
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
       final var userDto = userMapper.userToPrivateDto(user);
       return userDto;
     }
-    throw new UserNotFoundException("Cant access data of non existing user.");
+    throw new NotFoundException("Cant access data of non existing user.");
   }
 
   /**
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
       final var userDto = userMapper.userToDto(user);
       return userDto;
     }
-    throw new UserNotFoundException("Cant access data of non existing user.");
+    throw new NotFoundException("Cant access data of non existing user.");
   }
 
   /**
@@ -99,6 +99,6 @@ public class UserServiceImpl implements UserService {
       userRepository.delete(user);
       return userDto;
     }
-    throw new UserNotFoundException("Cant access data of non existing user.");
+    throw new NotFoundException("Cant access data of non existing user.");
   }
 }

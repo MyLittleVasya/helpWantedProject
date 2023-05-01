@@ -2,7 +2,7 @@ package com.charity.charityapi.handler;
 
 import com.charity.charityapi.handler.exception.AccessDeniedException;
 import com.charity.charityapi.handler.exception.UserAlreadyExistsException;
-import com.charity.charityapi.handler.exception.UserNotFoundException;
+import com.charity.charityapi.handler.exception.NotFoundException;
 import com.charity.charityapi.handler.exception.WrongCredentialsException;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,16 +22,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
   /**
-   * Handle {@link com.charity.charityapi.handler.exception.UserNotFoundException}
+   * Handle {@link NotFoundException}
    */
-  @ExceptionHandler(UserNotFoundException.class)
-  public ResponseEntity<ErrorMessage> handleUserNotFoundException(
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<ErrorMessage> handleNotFoundException(
       @Nonnull final HttpServletRequest request,
       @Nonnull final Exception exception) {
     final var message = ErrorMessage.builder()
         .status(HttpStatus.NOT_FOUND.value())
         .date(new Date())
-        .description(exception.getCause().toString())
+        .description(exception.getMessage())
         .url(request.getRequestURL().toString())
         .build();
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
@@ -47,7 +47,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     final var message = ErrorMessage.builder()
         .status(HttpStatus.FORBIDDEN.value())
         .date(new Date())
-        .description(exception.getCause().toString())
+        .description(exception.getMessage())
         .url(request.getRequestURL().toString())
         .build();
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
@@ -63,7 +63,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     final var message = ErrorMessage.builder()
         .status(HttpStatus.FORBIDDEN.value())
         .date(new Date())
-        .description(exception.getCause().getMessage())
+        .description(exception.getMessage())
         .url(request.getRequestURL().toString())
         .build();
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
@@ -79,7 +79,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     final var message = ErrorMessage.builder()
         .status(HttpStatus.FORBIDDEN.value())
         .date(new Date())
-        .description(exception.getCause().getMessage())
+        .description(exception.getMessage())
         .url(request.getRequestURL().toString())
         .build();
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);

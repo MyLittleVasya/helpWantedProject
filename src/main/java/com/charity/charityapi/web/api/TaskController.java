@@ -51,9 +51,10 @@ public class TaskController {
     }
   }
   //
-  @GetMapping("/get/{id}")
-  public ResponseEntity getTask(@PathVariable(name = "id") final long id) {
-    return null;
+  @GetMapping("{id}/get")
+  public ResponseEntity<TaskDto> getTask(@PathVariable(name = "id") final long id) {
+    final var result = taskService.getTask(id);
+    return ResponseEntity.ok(result);
   }
 
   //

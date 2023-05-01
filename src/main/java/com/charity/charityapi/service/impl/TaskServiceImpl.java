@@ -6,6 +6,7 @@ import com.charity.charityapi.dto.mapper.UserDtoMapper;
 import com.charity.charityapi.dto.request.CreateTaskRequest;
 import com.charity.charityapi.dto.request.GetTasksRequest;
 import com.charity.charityapi.dto.response.GetTasksResponse;
+import com.charity.charityapi.handler.exception.NotFoundException;
 import com.charity.charityapi.persistence.Task;
 import com.charity.charityapi.persistence.User;
 import com.charity.charityapi.persistence.repository.TaskRepository;
@@ -91,8 +92,13 @@ public class TaskServiceImpl implements TaskService {
 
   @Nonnull
   @Override
-  public TaskDto getTask(long id) {
-    return null;
+  public TaskDto getTask(final long id) {
+    final var task = taskRepository.findById(id);
+    if (task != null) {
+      final var taskDto = taskDtoMapper.taskToTaskDto(task);
+      return taskDto;
+    }
+    throw new NotFoundException(String.format("Task with id %s not found", id));
   }
 
   @Nonnull

@@ -1,9 +1,8 @@
 package com.charity.charityapi.service.impl;
 
 import com.charity.charityapi.config.jwt.JwtTokenProvider;
-import com.charity.charityapi.handler.exception.UserNotFoundException;
+import com.charity.charityapi.handler.exception.NotFoundException;
 import com.charity.charityapi.handler.exception.WrongCredentialsException;
-import com.charity.charityapi.persistence.User;
 import com.charity.charityapi.persistence.repository.UserRepository;
 import com.charity.charityapi.service.AuthenticationService;
 import jakarta.annotation.Nonnull;
@@ -52,7 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     final var user = userRepository.findByUsername(username);
 
     if (user == null) {
-      throw new UserNotFoundException(String.format("User with username: %s is not found.", username));
+      throw new NotFoundException(String.format("User with username: %s is not found.", username));
     }
 
     return passwordEncoder.matches(password, user.getPassword());
