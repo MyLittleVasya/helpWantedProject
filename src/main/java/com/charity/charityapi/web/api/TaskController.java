@@ -58,7 +58,7 @@ public class TaskController {
   }
 
   //
-  @DeleteMapping("/delete/{id}")
+  @DeleteMapping("{id}/delete")
   @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
   public ResponseEntity deleteTask(@PathVariable(name = "id") final long id) {
     return null;
@@ -66,15 +66,17 @@ public class TaskController {
 
   //
   @PostMapping("/{id}/addVolunteer")
-  public ResponseEntity addVolunteer(@PathVariable(name = "id") final long id,
+  public ResponseEntity<TaskDto> addVolunteer(@PathVariable(name = "id") final long taskId,
                                      @AuthenticationPrincipal final JwtUser user) {
-    return null;
+    final var result = taskService.addVolunteer(taskId, user);
+    return ResponseEntity.ok(result);
   }
   //
   @DeleteMapping("/{id}/deleteVolunteer")
-  public ResponseEntity deleteVolunteer(@PathVariable(name = "id") final long id,
+  public ResponseEntity<TaskDto> deleteVolunteer(@PathVariable(name = "id") final long taskId,
                                         @AuthenticationPrincipal final JwtUser user) {
-    return null;
+    final var result = taskService.deleteVolunteer(taskId, user);
+    return ResponseEntity.ok(result);
   }
 
   @PostMapping("/{id}/chooseExecutor/{executorId}")

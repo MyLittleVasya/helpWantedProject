@@ -1,5 +1,6 @@
 package com.charity.charityapi.service.impl;
 
+import com.charity.charityapi.config.jwt.authority.JwtUser;
 import com.charity.charityapi.dto.TaskDto;
 import com.charity.charityapi.dto.mapper.TaskDtoMapper;
 import com.charity.charityapi.dto.mapper.UserDtoMapper;
@@ -9,11 +10,13 @@ import com.charity.charityapi.dto.response.GetTasksResponse;
 import com.charity.charityapi.handler.exception.NotFoundException;
 import com.charity.charityapi.persistence.Task;
 import com.charity.charityapi.persistence.User;
+import com.charity.charityapi.persistence.Volunteer;
 import com.charity.charityapi.persistence.repository.TaskRepository;
 import com.charity.charityapi.persistence.repository.UserRepository;
 import com.charity.charityapi.persistence.repository.VolunteerRepository;
 import com.charity.charityapi.service.TaskService;
 import jakarta.annotation.Nonnull;
+import jakarta.transaction.Transactional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -103,18 +106,48 @@ public class TaskServiceImpl implements TaskService {
 
   @Nonnull
   @Override
-  public TaskDto deleteTask(long id) {
-    return null;
+  public TaskDto deleteTask(final long id) {
+    final var task = taskRepository.findById(id);
+    if (task != null) {
+      taskRepository.deleteById(id);
+      final var taskDto = taskDtoMapper.taskToTaskDto(task);
+      return taskDto;
+    }
+    throw new NotFoundException(String.format("Task with id %s not found", id));
   }
 
   @Override
-  public TaskDto addVolunteer(long taskId, long userId) {
-    return null;
+  public TaskDto addVolunteer(final long taskId, @Nonnull final JwtUser user) {
+    final var task = taskRepository.findById(taskId);
+    if (task == null) {
+      throw new NotFoundException(String.format("Task with id %s not found", taskId));
+    }
+    if (!volunteerRepository.existsByUserIdAndTaskId(user.getId(), taskId)) {
+      final var userEntity = userRepository.findById(user.getId());
+      final var volunteer = Volunteer.builder()
+          .user(userEntity)
+          .task(task)
+          .executor(false)
+          .build();
+      volunteerRepository.save(volunteer);
+    }
+    final var taskDto = taskDtoMapper.taskToTaskDto(task);
+    return taskDto;
   }
 
   @Override
-  public TaskDto deleteVolunteer(long taskId, long userId) {
-    return null;
+  @Transactional
+  public TaskDto deleteVolunteer(final long taskId, @Nonnull final JwtUser user) {
+    final var task = taskRepository.findById(taskId);
+    if (task == null) {
+      throw new NotFoundException(String.format("Task with id %s not found", taskId));
+    }
+    if (volunteerRepository.existsByUserIdAndTaskId(user.getId(), taskId)) {
+      final var volunteer = volunteerRepository.findByUserIdAndTaskId(user.getId(), taskId);
+      volunteerRepository.delete(volunteer);
+    }
+    final var taskDto = taskDtoMapper.taskToTaskDto(task);
+    return taskDto;
   }
 
   @Override

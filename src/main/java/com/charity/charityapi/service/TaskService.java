@@ -1,12 +1,12 @@
 package com.charity.charityapi.service;
 
+import com.charity.charityapi.config.jwt.authority.JwtUser;
 import com.charity.charityapi.dto.TaskDto;
 import com.charity.charityapi.dto.request.CreateTaskRequest;
 import com.charity.charityapi.dto.request.GetTasksRequest;
 import com.charity.charityapi.dto.response.GetTasksResponse;
 import com.charity.charityapi.persistence.User;
 import jakarta.annotation.Nonnull;
-import java.util.Set;
 
 /**
  * Service for {@link com.charity.charityapi.persistence.Task}.
@@ -63,19 +63,19 @@ public interface TaskService {
    * Method to add volunteer to task.
    *
    * @param taskId task add volunteer to.
-   * @param userId volunteer id.
+   * @param user user who wants to be a volunteer.
    * @return task DTO.
    */
-  TaskDto addVolunteer(long taskId, long userId);
+  TaskDto addVolunteer(long taskId, @Nonnull JwtUser user);
 
   /**
    * Method to delete volunteer from task.
    *
    * @param taskId task delete volunteer from.
-   * @param userId volunteer id.
+   * @param user user which is already a volunteer.
    * @return task DTO.
    */
-  TaskDto  deleteVolunteer(long taskId, long userId);
+  TaskDto  deleteVolunteer(long taskId, @Nonnull JwtUser user);
 
   /**
    * Method to add executor from volunteers.

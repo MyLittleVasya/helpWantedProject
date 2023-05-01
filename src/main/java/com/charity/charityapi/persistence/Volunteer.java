@@ -30,6 +30,7 @@ import lombok.experimental.FieldDefaults;
 public class Volunteer {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
