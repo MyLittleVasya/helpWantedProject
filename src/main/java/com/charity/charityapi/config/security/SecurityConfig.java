@@ -38,18 +38,6 @@ public class SecurityConfig {
     return authConfig.getAuthenticationManager();
   }
 
-//  @Bean
-//  public WebMvcConfigurer corsConfigurer() {
-//    return new WebMvcConfigurer() {
-//      @Override
-//      public void addCorsMappings(CorsRegistry registry) {
-//        registry
-//            .addMapping("/**")
-//            .allowedOrigins("http://localhost:3000");
-//      }
-//    };
-//  }
-
   /**
    * Configuration of security.
    */
