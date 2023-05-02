@@ -14,8 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 /**
  * Security configuration class for JWT based Spring Security application.
@@ -61,6 +60,8 @@ public class SecurityConfig {
         .and()
         // disable CSRF as we do not serve browser clients
         .csrf().disable()
+        .cors()
+        .and()
         .authorizeHttpRequests()
         .requestMatchers("/login", "/users/create").permitAll()
         .requestMatchers(toH2Console()).permitAll()
