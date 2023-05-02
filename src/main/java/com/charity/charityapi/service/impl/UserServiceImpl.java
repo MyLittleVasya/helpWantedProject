@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
   public UserPrivateDto getUserByUserName(@Nonnull String name) {
     final var user = userRepository.findByUsername(name);
     if (user == null){
-      throw new UserNotFoundException(
+      throw new NotFoundException(
           String.format("Not found user with %s name not found",name));
     }
     return userMapper.userToPrivateDto(user);
