@@ -43,7 +43,7 @@ public class JwtFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                   FilterChain filterChain) throws ServletException, IOException {
 
-    if (isPublicEndpoint(request) || request.getMethod().equals("OPTIONS")){
+    if (isPublicEndpoint(request)){
       filterChain.doFilter(request,response);
       return;
     }
@@ -51,7 +51,6 @@ public class JwtFilter extends OncePerRequestFilter {
       final var jwtToken = parseAuthToken(request, response);
       setAuthentication(jwtToken, response);
 
-      filterChain.doFilter(request,response);
     }
 
     filterChain.doFilter(request,response);
