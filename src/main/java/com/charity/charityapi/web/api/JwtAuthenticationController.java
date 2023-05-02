@@ -1,5 +1,7 @@
 package com.charity.charityapi.web.api;
 
+import com.charity.charityapi.config.jwt.authority.JwtUser;
+import com.charity.charityapi.dto.UserPrivateDto;
 import com.charity.charityapi.dto.request.LoginRequest;
 import com.charity.charityapi.dto.response.LoginResponse;
 import com.charity.charityapi.service.AuthenticationService;
@@ -8,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,22 +36,10 @@ public class JwtAuthenticationController {
     return ResponseEntity.ok(response);
   }
 
-  /**
-   * todo remove this.
-   */
-  @GetMapping("/admin")
-  @PreAuthorize("hasAuthority('ADMIN')")
-  public ResponseEntity test(){
-    return ResponseEntity.ok().build();
-  }
-
-  /**
-   * todo remove this.
-   */
   @GetMapping("/user")
-  @PreAuthorize("hasAuthority('USER')")
-  public ResponseEntity test2(){
-    return ResponseEntity.ok().build();
+  public ResponseEntity<UserPrivateDto> getUserByToken( @AuthenticationPrincipal final JwtUser user){
+    final var userDto = userService.getUserByUserName(user.getUsername());
+    return ResponseEntity.ok(userDto);
   }
 
 }
