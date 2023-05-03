@@ -12,9 +12,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TaskRepository extends JpaRepository<Task, Long> {
   Task findById(long id);
 
-  Set<Task> findAllByTagsInIgnoreCase(PageRequest pageRequest, Set<String> set);
+  Set<Task> findAllByTagsInIgnoreCaseAndFinished(PageRequest pageRequest, Set<String> set, boolean finished);
 
-  Set<Task> findAllByOrderByIdDesc(PageRequest pageRequest);
+  Set<Task> findAllByFinishedOrderByIdDesc(PageRequest pageRequest, boolean finished);
 
   Task findTopByOrderByIdDesc();
 

@@ -13,5 +13,7 @@ public class UserDto {
 
   String username;
 
+  String email;
+
   long reputation;
 }

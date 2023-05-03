@@ -53,8 +53,9 @@ public class TaskServiceImpl implements TaskService {
   @Nonnull
   @Override
   public GetTasksResponse getTasks(@Nonnull final GetTasksRequest request) {
-    final var tasks = taskRepository.findAllByOrderByIdDesc(
-        PageRequest.of(request.getPage(), request.getSize())
+    final var tasks = taskRepository.findAllByFinishedOrderByIdDesc(
+        PageRequest.of(request.getPage(), request.getSize()),
+        false
     );
     if (tasks.size() == 0) {
       return GetTasksResponse.builder().lastPage(true).build();
@@ -75,9 +76,10 @@ public class TaskServiceImpl implements TaskService {
   @Nonnull
   @Override
   public GetTasksResponse getTasksContainingTags(@Nonnull final GetTasksRequest request) {
-    final var tasks = taskRepository.findAllByTagsInIgnoreCase(
+    final var tasks = taskRepository.findAllByTagsInIgnoreCaseAndFinished(
         PageRequest.of(request.getPage(), request.getSize()),
-        request.getTags()
+        request.getTags(),
+        false
     );
     if (tasks.size() == 0) {
       return GetTasksResponse.builder().lastPage(true).build();

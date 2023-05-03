@@ -29,6 +29,7 @@ public class UserDtoMapper {
         .id(user.getId())
         .username(user.getUsername())
         .reputation(user.getReputation())
+        .email(user.getEmail())
         .build();
     return userDto;
   }
