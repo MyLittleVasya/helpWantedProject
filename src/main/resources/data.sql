@@ -24,7 +24,7 @@ insert into tasks(name, description, short_description, finished, author_id) val
 'TestTask', 'Task for testing', 'Short description of test task', false, 1
                                                                                         );
 
-insert into tasks(name, description, short_description, finished, author_id) values (
+insert into  tasks(name, description, short_description, finished, author_id) values (
 'TestTask2', 'Task for testing2', 'Short description of test task2', false, 2
                                                                                         );
 insert into task_tags (task_id, tag) values (
