@@ -1,6 +1,5 @@
 package com.charity.charityapi.config.security;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import com.charity.charityapi.config.jwt.impl.JwtFilter;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +51,6 @@ public class SecurityConfig {
         .and()
         .authorizeHttpRequests()
         .requestMatchers("/login", "/users/create").permitAll()
-        .requestMatchers(toH2Console()).permitAll()
         .anyRequest().authenticated()
         .and()
         .httpBasic().disable()
