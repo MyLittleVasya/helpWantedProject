@@ -51,7 +51,6 @@ public class JwtFilter extends OncePerRequestFilter {
       final var jwtToken = parseAuthToken(request, response);
       setAuthentication(jwtToken, response);
 
-      filterChain.doFilter(request,response);
     }
 
     filterChain.doFilter(request,response);

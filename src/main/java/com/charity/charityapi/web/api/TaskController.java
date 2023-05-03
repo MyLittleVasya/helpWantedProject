@@ -41,7 +41,7 @@ public class TaskController {
     return ResponseEntity.ok(result);
   }
   //
-  @GetMapping()
+  @PostMapping()
   public ResponseEntity<GetTasksResponse> getTasks(@RequestBody final GetTasksRequest request) {
     if (request.getTags() == null || request.getTags().isEmpty()) {
       final var result = taskService.getTasks(request);
