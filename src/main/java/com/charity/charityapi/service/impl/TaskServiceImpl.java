@@ -197,7 +197,7 @@ public class TaskServiceImpl implements TaskService {
   public Set<TaskDto> getTasksCreatedByUser(long userId) {
     final var user = userRepository.findById(userId);
     if (user != null) {
-      final var tasks = taskRepository.findByAuthorId(userId);
+      final var tasks = taskRepository.findByAuthorIdAndFinished(userId,false);
       final var taskDtos = taskDtoMapper.tasksToTasksDto(tasks);
       return taskDtos;
     }
