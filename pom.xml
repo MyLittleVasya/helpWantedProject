@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.charity</groupId>
     <artifactId>CharityAPI</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <name>CharityAPI</name>
     <description>CharityAPI</description>
     <properties>
